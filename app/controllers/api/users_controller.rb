@@ -25,7 +25,7 @@ class Api::UsersController < Api::ApiController
     	@user.save!
 		@client = Twilio::REST::Client.new account_sid, auth_token
 		@client.account.messages.create(
-  			:from => '8173859564',
+  			:from => '2406692696',
   			:to => "#{params[:signup_number]}",
   			:body => "Hey there! Welcome to Screenr, your verification code is #{code}, enter this code into your app."
 		)
