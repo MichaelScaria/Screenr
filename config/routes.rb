@@ -5,5 +5,7 @@ Screenr::Application.routes.draw do
     post 'area_code' => 'users#area_code'
     post 'initial' => 'users#initial'
     post 'state' => 'users#state'
+    post 'purchase' => 'users#purchase'
+    post 'inbox' => 'users#inbox'
   end
 end
