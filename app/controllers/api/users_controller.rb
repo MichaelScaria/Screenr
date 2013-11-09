@@ -5,8 +5,8 @@ class Api::UsersController < Api::ApiController
 
 	if params[:signup_number]
 		# put your own credentials here
-		account_sid = 'AC3642c0f457f22cc9d01db129adcc9694'
-		auth_token = 'd9fc262df548d8a6b96d5535f1dbe7de'
+		account_sid = 'AC20d859d12f3d9c0bc13214dfb2c575cf'
+		auth_token = '5d0bff17823060e379cc6024361e4b23'
 
 		# set up a client to talk to the Twilio REST API
 		a = ('A'..'Z').to_a+(0..9).to_a
@@ -49,8 +49,8 @@ class Api::UsersController < Api::ApiController
   def area_code
   	if params[:area_code]
   		puts "AREA CODE #{params[:area_code]}"
-	  	account_sid = 'AC3642c0f457f22cc9d01db129adcc9694'
-		auth_token = 'd9fc262df548d8a6b96d5535f1dbe7de'
+	  	account_sid = 'AC20d859d12f3d9c0bc13214dfb2c575cf'
+		auth_token = '5d0bff17823060e379cc6024361e4b23'
 		@client = Twilio::REST::Client.new account_sid, auth_token
 	 
 		@numbers = @client.account.available_phone_numbers.get('US').local.list(:area_code => params[:area_code])
@@ -68,8 +68,8 @@ class Api::UsersController < Api::ApiController
   def initial
   	if params[:initial]
   		puts "INITIAL #{params[:initial]}"
-	  	account_sid = 'AC3642c0f457f22cc9d01db129adcc9694'
-		auth_token = 'd9fc262df548d8a6b96d5535f1dbe7de'
+	  	account_sid = 'AC20d859d12f3d9c0bc13214dfb2c575cf'
+		auth_token = '5d0bff17823060e379cc6024361e4b23'
 		@client = Twilio::REST::Client.new account_sid, auth_token
 	 
 		@numbers = @client.account.available_phone_numbers.get('US').local.list(:contains => "#{params[:initial]}****")
@@ -87,8 +87,8 @@ class Api::UsersController < Api::ApiController
   def state
   	if params[:state]
   		puts "STATE #{params[:state]}"
-	  	account_sid = 'AC3642c0f457f22cc9d01db129adcc9694'
-		auth_token = 'd9fc262df548d8a6b96d5535f1dbe7de'
+	  	account_sid = 'AC20d859d12f3d9c0bc13214dfb2c575cf'
+		auth_token = '5d0bff17823060e379cc6024361e4b23'
 		@client = Twilio::REST::Client.new account_sid, auth_token
 	 
 		@numbers = @client.account.available_phone_numbers.get('US').local.list(:in_region => params[:state])
@@ -105,11 +105,11 @@ class Api::UsersController < Api::ApiController
 
   def purchase
   	if params[:purchase] && params[:phone_number]
-	  	account_sid = 'AC3642c0f457f22cc9d01db129adcc9694'
-		auth_token = 'd9fc262df548d8a6b96d5535f1dbe7de'
+	  	account_sid = 'AC20d859d12f3d9c0bc13214dfb2c575cf'
+		auth_token = '5d0bff17823060e379cc6024361e4b23'
 		@client = Twilio::REST::Client.new account_sid, auth_token
 	 
-		# @client.account.incoming_phone_numbers.create(:phone_number => params[:purchase])
+		@client.account.incoming_phone_numbers.create(:phone_number => params[:purchase])
 		@user = User.where(:real_number => params[:phone_number]).first
 		@number = Number.create(:user => @user, :number => params[:purchase], :region => params[:region], :postal_code => params[:postal_code])
 		@number.save!
@@ -143,5 +143,42 @@ class Api::UsersController < Api::ApiController
   	else
   		render :nothing => true
   	end
+
   end
+
+  def sendx
+  	account_sid = 'AC20d859d12f3d9c0bc13214dfb2c575cf'
+	auth_token = '5d0bff17823060e379cc6024361e4b23'
+	@client = Twilio::REST::Client.new account_sid, auth_token
+	@client.account.messages.create(
+		:from => "#{params[:number]}",
+ 	 	:to => "9723104741",
+ 		:body => "#{params[:message]}"
+		)
+	@number = Number.where(:number => "#{params[:number]}").first
+	@conversation = Conversation.find(params[:conversation_id])
+	Message.create(:conversation => @conversation, :number => @number, :message => "#{params[:message]}", :message_type => 0)
+	@messages = Message.where(:conversation_id => @conversation.id)
+	render :json => @messages.as_json
+  end
+
+ #  def send
+ #  	if params[:conversation_id] && params[:number] && params[:a_number] && params[:message]
+	#   	account_sid = 'AC20d859d12f3d9c0bc13214dfb2c575cf'
+	# 	auth_token = '5d0bff17823060e379cc6024361e4b23'
+	# 	@client = Twilio::REST::Client.new account_sid, auth_token
+	# 	@client.account.messages.create(
+ #  			:from => "#{params[:number]}",
+ #  			:to => "9723104741",
+ #  			:body => "#{params[:message]}"
+	# 	)
+	# 	@number = Number.where(:number => "#{params[:number]}").first
+	# 	@conversation = Conversation.find(params[:conversation_id])
+	# 	Message.create(:conversation => @conversation, :number => @number, :message => "#{params[:message]}", :message_type => 0)
+	# 	json = {:final => 'success'}
+	# else
+	# 	json = {:final => 'error'}
+	# end
+	# render :json => json
+ #  end
 end
