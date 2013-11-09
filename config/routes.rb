@@ -9,5 +9,6 @@ Screenr::Application.routes.draw do
     post 'inbox' => 'users#inbox'
     post 'messages' => 'users#messages'
     post 'send' => 'users#sendx'
+    post 'start' => 'users#start'
   end
 end
