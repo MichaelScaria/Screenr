@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131109163731) do
+ActiveRecord::Schema.define(:version => 20131109194139) do
 
   create_table "conversations", :force => true do |t|
     t.integer  "first_number_id"
@@ -24,10 +24,10 @@ ActiveRecord::Schema.define(:version => 20131109163731) do
     t.integer  "conversation_id"
     t.string   "message"
     t.string   "media_url"
-    t.integer  "type"
     t.integer  "number_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "message_type"
   end
 
   create_table "numbers", :force => true do |t|

@@ -7,8 +7,12 @@ class Conversation < ActiveRecord::Base
     options ||= {}
     json = {
       :id => id,
-      :first_number=> first_number,
-      :second_number => second_number
+      :first_number=> first_number.number,
+      :first_region => first_number.region,
+      :first_postal_code=>first_number.postal_code,
+      :second_number => second_number.number,
+      :second_region => second_number.region,
+      :second_postal_code=>second_number.postal_code,
     }
     json
   end 

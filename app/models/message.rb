@@ -8,7 +8,7 @@ class Message < ActiveRecord::Base
     json = {
       :id => id,
       :number=> number,
-      :type => type
+      :message_type => message_type
     }
     json[:message] = message if message
     json[:media_url] = media_url if media_url

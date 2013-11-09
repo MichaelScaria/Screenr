@@ -132,4 +132,16 @@ class Api::UsersController < Api::ApiController
   	end
   	render :json => final_json
   end
+
+  def messages
+  	@conversation = Conversation.find(params[:conversation_id])
+  	if @conversation
+  		@messages = Message.where(:conversation_id => @conversation.id)
+  		puts 'MESSAGES'
+  		puts @messages
+  		render :json => @messages.as_json
+  	else
+  		render :nothing => true
+  	end
+  end
 end

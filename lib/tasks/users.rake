@@ -7,7 +7,7 @@ namespace :users do
     Number.create(:user => @mom, :number => '222222222')
     @n2 = Number.where(:user_id => @michael.id).first
     @c = Conversation.create(:first_number => @n1, :second_number => @n2)
-    Message.create(:conversation => @c, :number => @n1, :message => 'hey son!', :type => 0)
+    Message.create(:conversation => @c, :number => @n1, :message => 'hey son!', :message_type => 0)
   end
 
   desc "Test alphanumeric string"
@@ -31,6 +31,8 @@ namespace :users do
     @michael = User.where(:real_number => '9723104741').first
     @n2 = Number.where(:user_id => @michael.id).first
     @c = Conversation.create(:first_number => @n1, :second_number => @n2)
+    Message.create(:conversation => @c, :number => @n1, :message => 'hey son!', :message_type => 0)
+    Message.create(:conversation => @c, :number => @n2, :message => 'sup mom...', :message_type => 0)
   end
 end
 

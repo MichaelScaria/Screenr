@@ -7,5 +7,6 @@ Screenr::Application.routes.draw do
     post 'state' => 'users#state'
     post 'purchase' => 'users#purchase'
     post 'inbox' => 'users#inbox'
+    post 'messages' => 'users#messages'
   end
 end
