@@ -27,7 +27,8 @@ namespace :users do
 
   desc "Test alphanumeric string"
   task :c_seed => :environment do
-    @n1 = Number.where(:number => '111111111').first
+    @mom = User.create(:real_number => '4699513041')
+    @n1 = Number.create(:user => @mom, :number => '9376925749')
     @michael = User.where(:real_number => '9723104741').first
     @n2 = Number.where(:user_id => @michael.id).first
     @c = Conversation.create(:first_number => @n1, :second_number => @n2)
