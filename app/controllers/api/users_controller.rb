@@ -162,6 +162,21 @@ class Api::UsersController < Api::ApiController
 	render :json => @messages.as_json
   end
 
+  def start
+  	account_sid = 'AC20d859d12f3d9c0bc13214dfb2c575cf'
+	auth_token = '5d0bff17823060e379cc6024361e4b23'
+	@client = Twilio::REST::Client.new account_sid, auth_token
+	@client.account.messages.create(
+		:from => "#{params[:number]}",
+ 	 	:to => "9723104741",
+ 		:body => "#{params[:message]}"
+		)
+	@number = Number.where(:number => "#{params[:number]}").first
+	@conversation = Conversation.find(params[:conversation_id])
+	Message.create(:conversation => @conversation, :number => @number, :message => "#{params[:message]}", :message_type => 0)
+	@messages = Message.where(:conversation_id => @conversation.id)
+  end
+
  #  def send
  #  	if params[:conversation_id] && params[:number] && params[:a_number] && params[:message]
 	#   	account_sid = 'AC20d859d12f3d9c0bc13214dfb2c575cf'
