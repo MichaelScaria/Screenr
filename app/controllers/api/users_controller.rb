@@ -160,6 +160,7 @@ class Api::UsersController < Api::ApiController
 	Message.create(:conversation => @conversation, :number => @number, :message => "#{params[:message]}", :message_type => 0)
 	@messages = Message.where(:conversation_id => @conversation.id)
 	render :json => @messages.as_json
+        puts 'save'
   end
 
   def start
